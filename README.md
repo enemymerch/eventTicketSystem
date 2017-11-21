@@ -1,4 +1,6 @@
-# myEvents
+# myEvents SQL
 
-index.php:
--first page of the project. Includes : login and register forms !
+
+sql script files;
+tables.sql : create table's
+sequences.sql : create sequences's
