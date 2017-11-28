@@ -1,4 +1,4 @@
 # myEvents
 
-index.php:
--first page of the project. Includes : login and register forms !
+branch - 'sql' : includes .sql files
+branch - 'php' : includes .php files 
