@@ -187,7 +187,7 @@ function validateLoginInformation($username, $password){
 	 					<div class="col-xs-6">
 	 						<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 	 							<h4 style="text-align:center" class="text-info">Login</h4>
-                                <p class="text-danger"><?php echo $login_result?></p>
+                                <p class="text-danger"><?php echo $login_info ?></p>
                                 <div class="form-group">
 	 								<label for="email">Username: <?php echo "<p>". $login_username."</p>"?></label>
 	 								<input type="email" class="form-control" name="login_username" id="email">
@@ -201,7 +201,7 @@ function validateLoginInformation($username, $password){
 	 					</div>
 	 					<div class="col-xs-6">
 	 						<h4 class="text-info" style="text-align: center">Register</h4>
-	 						<p class="text-danger"><?php echo $reg_succes ?></p>
+	 						<p class="text-danger"><?php echo $reg_info ?></p>
 	 						<form  method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 	 							<div class="form-group">
 	 								<label for="username">Username: <?php echo "<p>". $reg_username."</p>"?></label>
