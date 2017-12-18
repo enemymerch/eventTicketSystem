@@ -22,21 +22,23 @@ $reg_info = "";
 
 <?php 
 include 'C:/xampp/htdocs/src/member.php';
+include 'C:/xampp/htdocs/src/admin.php';
 
 if($_SERVER['REQUEST_METHOD'] == "POST"){
 	if($_POST['submit'] == "login"){ // post for login
 		// LOGIN
         // getting variables from post!
-		$username  = $_POST['login_email'];
+		$username  = $_POST['login_username'];
 		$password = $_POST['login_password']; 
 		// going to check email and password 
-        if( validateLoginInformation($userName, $password)){
+        if( validateLoginInformation($username, $password)){
             // TODO: login
             if( authenticateMemeber($username, $password)) {
-             // TODO
-             redirect("welcome_member.php");
+             	redirect("welcome_member.php");
+            }else if(authenticateAdmin($username, $password)){
+            	redirect("welcome_admin.php");
             }else{
-             $login_info = "Wrong login information";
+             	$login_info = "Wrong login information";
             }
         }
     }else if($_POST['submit'] == "register"){
@@ -56,12 +58,12 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 			// TODO: register
 			$result = addNewMember($username, $email, $name, $password, $street, $city, $postcode, $phone, $country);
 
-			if($result = -2 ){
-				$reg_succes = "Username is already taken!";
-			}else if($result = -1){
-				$reg_succes = "Email  is already taken!";
+			if($result == -2 ){
+				$reg_info = "Username is already taken!";
+			}else if($result == -1){
+				$reg_info = "Email  is already taken!";
 			}else{
-				$reg_succes = "You have successfully registered!";
+				$reg_info = "You have successfully registered!";
 			}
 		}
 	}
@@ -189,8 +191,8 @@ function validateLoginInformation($username, $password){
 	 							<h4 style="text-align:center" class="text-info">Login</h4>
                                 <p class="text-danger"><?php echo $login_info ?></p>
                                 <div class="form-group">
-	 								<label for="email">Username: <?php echo "<p>". $login_username."</p>"?></label>
-	 								<input type="email" class="form-control" name="login_username" id="email">
+	 								<label for="Username">Username: <?php echo "<p>". $login_username."</p>"?></label>
+	 								<input type="text" class="form-control" name="login_username" id="email">
 	 							</div>
 	 							<div class="form-group">
 	 								<label for="pws">Password: <p><?php echo $login_password ;?></p></label>
@@ -199,12 +201,13 @@ function validateLoginInformation($username, $password){
 	 							<button name="submit" value="login" = type="submit" class="btn btn-default">Login</button>
 	 						</form>
 	 					</div>
+	 					
 	 					<div class="col-xs-6">
 	 						<h4 class="text-info" style="text-align: center">Register</h4>
 	 						<p class="text-danger"><?php echo $reg_info ?></p>
 	 						<form  method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 	 							<div class="form-group">
-	 								<label for="username">Username: <?php echo "<p>". $reg_username."</p>"?></label>
+	 								<label for="username">Username: <?php echo "<p>" .$reg_username."</p>"?></label>
 	 								<input type="name" class="form-control" id="username" name="reg_username">
 	 								<label for="email">Email Address: <?php echo "<p>". $reg_email."</p>"?></label>
 	 								<input type="email" class="form-control" id="email" name="reg_email">

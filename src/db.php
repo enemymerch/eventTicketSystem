@@ -51,13 +51,38 @@ class DatabaseClient
 		oci_bind_by_name($stmt, ':CITY', $city);
 		oci_bind_by_name($stmt, ':COUNTRYID', $countryID);
 		oci_bind_by_name($stmt, ':POSTCODE', $postcode);
-		$addressID ;
-		oci_bind_by_name($stmt, ':AID', $addressID);
+		$addressID  = 20 ;
+		oci_bind_by_name($stmt, ':AID', $addressID,20);
 		
 		//execute
 		oci_execute($stmt);
-		
+		echo gettype($addressID);
 		return $addressID;
+		
+	}
+	function getMembers(){
+		$sql = 'Select * FROM MEMBERS';
+		$stmt = oci_parse($this->conn, $sql);
+
+		oci_execute($stmt);
+		oci_fetch_all($stmt, $res);
+		echo gettype($res);
+
+
+		return $res;
+		
+	}
+
+	function getAdmins(){
+		$sql = 'Select * FROM ADMINS';
+		$stmt = oci_parse($this->conn, $sql);
+
+		oci_execute($stmt);
+		oci_fetch_all($stmt, $res);
+		echo gettype($res);
+
+
+		return $res;
 		
 	}
 	function addNewMember($username, $email, $name, $password, $street, $city, $phone, $postcode, $addID){
@@ -66,7 +91,7 @@ class DatabaseClient
 		$sql = 'BEGIN ADDNEWMEMBER(:USRNAME, :USRPASSWORD, :USRTYPEID, :MBRTYPEID, :ADDID, :MBRNAME, :MBRPHONENUMBER, :MBREMAIL); END;';
 		$stmt = oci_parse($this->conn, $sql);
 		// email
-		oci_bind_by_name($stmt, ':USRNAME', $email);
+		oci_bind_by_name($stmt, ':USRNAME', $username);
 		// password
 		oci_bind_by_name($stmt, ':USRPASSWORD', $password);
 		//USRTYPEID

@@ -3,6 +3,13 @@
 
 <head>
 
+
+	<?php 
+		// Loggin Control
+		include 'C:/xampp/htdocs/src/loginAuthentication.php';
+
+	?>
+
 		<title>myticket</title>
 		 <!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -17,9 +24,6 @@
 
 	<body>
 
-		<?php 
-			$member_name = 'Jack';
-		?>
 
 		<!-- NAVBAR  -->
 		 <nav class="navbar navbar-inverse">
@@ -29,19 +33,18 @@
 		    	</div>
 		    	<ul class="nav navbar-nav">
 		      		<li class="active"><a href="welcome_member.php">Home</a></li>
-		      		<li><a href="welcome_member.php">Events</a></li>
+		      		<li><a href="search_events.php">Events</a></li>
 
 		    	</ul>
 
 		    	<ul class="nav navbar-nav navbar-right">
-		      		<!-- 
-						<li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-		      			<li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-		      		-->
 		    		<li class="dropdown">
         				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        					<?php
-        						echo $member_name;
+        					<?php       		    
+        						if(!isset($_SESSION)){
+        							session_start();
+        						}
+        						echo $_SESSION["USERNAME"];
         					?>
         					<span class="glyphicon glyphicon-user"></a>
         				<ul class="dropdown-menu">
@@ -53,33 +56,38 @@
 		  	</div>
 		</nav> 
 
-
-<?php
-// Create connection to Oracle
- $db = "(DESCRIPTION=(ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521)))(CONNECT_DATA=(SID=dbs)))" ;
-$conn = oci_connect("b21228932", "21228932", $db);
-if (!$conn) {
-   $m = oci_error();
-   echo $m['message'], "\n";
-   exit;
-}
-else {
-   print "Connected to Oracle!";
-   $s = oci_parse($conn, 'select * from COUNTRY');
-   oci_execute($s);
-   oci_fetch_all($s, $res);
-   $countries = $res['COUNTRYNAME'];
-   
-   echo '</br><ul>';
-   for($i = 0 ; count($countries)>$i ; $i++){
-   		echo '<li>'. $countries[$i] .'</li>';
-   }
-   echo '</ul>';
-   
-}
-// Close the Oracle connection
-oci_close($conn);
-?>
+		<div class="container" style="margin-top: 10%; ">
+			<div class="row">
+				<div class="col-xs-3 col-xs-offset-2">
+					<h2 class="text-info" style="text-align: center">SEARCH FOR EVENTS</h2>
+					</br>
+					</br>
+					</br>
+						<button  class="btn btn-default center-block" name="submit" value="search" ><a href="search_events.php">SEARCH</a></button>
+				</div>
+				<div class="col-xs-3 col-xs-offset-2">
+					<h2 class="text-info" style="text-align: center">YOUR PROFILE</h2>
+					</br>
+					</br>
+					<?php 
+					// TODO !!!
+						$profileImagePath = $_SESSION['USERID'].".jpeg";
+						if(file_exists($profileImagePath)){
+							echo "<img src=\"". $profileImagePath . "\" class=\"img-rounded\" alt=\"Cinque Terre\">";
+						}else{
+							echo "<p class=\"text-danger\">You didn't uploaded a profile pic by the way...! </p>";
+						}
+					?>
+					</br>
+						<button  class="btn btn-default center-block" name="submit" value="edit"><a href="edit_profile.php">GO TO PROFILE</a></button>
+				</div>
+			</div>
+		</div>
+		<div class="container" style="margin-top: 10%;">
+			<div class="row">
+				<h2 class="text-info" style="text-align: center">DASHBOARD FOR HISTORY</h2>
+			</div>
+		</div>
 
 	 	<footer style="margin-top: 20%">
 	 	</footer>

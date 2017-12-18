@@ -22,7 +22,12 @@ function getHash($var){
 }
 
 
-
+function validateLogin($username1, $username2, $password1, $password2){
+    	if(($username1==$username2) and( $password1 == $password2)){
+    		return True;
+    	}
+    	return False;
+    }
 
 function getCountryTable(){
 	$dbClient = new DatabaseClient();
