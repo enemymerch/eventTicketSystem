@@ -53,10 +53,10 @@
 						 <ul class="list-group">
 	  						<li class="list-group-item list-group-item-danger"><h2>Members</h2></li>
 	  						<li class="list-group-item list-group-item-info"><h4>Pages : Pages that are in usage of the members.</h4></li>
-	  						<li class="list-group-item">welcome_member.php : This page comes after member login.</li>
-	  						<li class="list-group-item">edit_member_profile.php : This page is for editing member profile.</li>
-	  						<li class="list-group-item">logout.php : This page comes after member logs out.</li>
-	  						<li class="list-group-item">my_history.php : This page is for member to it's history.</li>
+	  						<li class="list-group-item list-group-item-success">welcome_member.php : This page comes after member login.</li>
+	  						<li class="list-group-item list-group-item-success">edit_member_profile.php : This page is for editing member profile.</li>
+	  						<li class="list-group-item list-group-item-success">logout.php : This page comes after member logs out.</li>
+	  						<!--<li class="list-group-item ">my_history.php : This page is for member to it's history.</li>-->
 	  						<li class="list-group-item">search_events.php : This page is for searching events. </li>
 	  						<li class="list-group-item">related_event.php : This page changes itself depending on the event type. One page for every type.</li>
 	  						<li class="list-group-item">event_$eventID.php : This page is for every event. Event Page.</li>
@@ -75,8 +75,8 @@
 							<li class="list-group-item">edit_event.php : This page is for editing specific event.</li>
 							<li class="list-group-item">delete_event.php : This page is for deleting event.</li>
 							<li class="list-group-item">members_history.php : This page is for keeping track of members usage history.</li>
-							<li class="list-group-item">editing_gold_members.php : This page is for editing gold members.</li>
-							<li class="list-group-item">editing_discounts.php : This page is for editing gold members.</li>
+							<li class="list-group-item">handling_gold_members.php : This page is for editing gold members.</li>
+							<li class="list-group-item">handling_discounts.php : This page is for editing gold members.</li>
 						</ul>
 					</div>
 				</div>

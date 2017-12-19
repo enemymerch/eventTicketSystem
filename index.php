@@ -20,9 +20,10 @@ $reg_phone = "";
 $reg_info = "";
 ?>
 
+
 <?php 
-include 'C:/xampp/htdocs/src/member.php';
-include 'C:/xampp/htdocs/src/admin.php';
+include 'C:/xampp/htdocs/src/myEvents.php';
+
 
 if($_SERVER['REQUEST_METHOD'] == "POST"){
 	if($_POST['submit'] == "login"){ // post for login
@@ -33,7 +34,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 		// going to check email and password 
         if( validateLoginInformation($username, $password)){
             // TODO: login
-            if( authenticateMemeber($username, $password)) {
+            if( authenticateMember($username, $password)) {
              	redirect("welcome_member.php");
             }else if(authenticateAdmin($username, $password)){
             	redirect("welcome_admin.php");
@@ -70,80 +71,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 }
 
 
-function validateRegisterInformation($usernmae, $email, $name, $password, $street, $city, $postCode, $phone){
 
-	$result = True;
-	if(isEmpty($usernmae)){
-		global $reg_username;
-		$reg_username = "Username is requered!";
-		$result  = False;
-	}
-
-	// email
-	if(isEmpty($email)){
-		global $reg_email;
-		$reg_email = "Email is requered!";
-		$result  = False;
-	}
-	// name
-	if(isEmpty($name)){
-		global $reg_name;
-		$reg_name = "Name is requered!";
-		$result  = False;
-	}
-	// password
-	if(isEmpty($password)){
-		global $reg_password;
-		$reg_password = "Name is requered!";
-		$result  = False;
-	}
-	//street
-	if(isEmpty($street)){
-		global $reg_street;
-		$reg_street	= "Street Address is requered!";
-		$result  = False;
-	}
-	//city
-	if(isEmpty($city)){
-		global $reg_city;
-		$reg_city = "City is requered!";
-		$result  = False;
-	}
-
-	// postCode
-	if(isEmpty($postCode)){
-		global $reg_post_code;
-		$reg_post_code = "Postcode is requered!";
-		$result  = False;
-	}
-
-	// phone
-	if(isEmpty($phone)){
-		global $reg_phone;
-		$reg_phone = "Phonenumber is requered!";
-		$result  = False;
-	}
-	return $result;
-}
-
-function validateLoginInformation($username, $password){
-	$result = True;
-	// email
-	if(isEmpty($username)){
-		global $login_username;
-		$login_username = "Username is requered to login!";
-		$result  = False;
-		
-	}
-	// name
-	if(isEmpty($password)){
-		global $login_password;
-		$login_password = "Password is requered to login!";
-		$result  = False;
-	}
-
-	return $result;
-}
 
 ?>
 
@@ -166,7 +94,7 @@ function validateLoginInformation($username, $password){
 		 <nav class="navbar navbar-inverse">
 		 	<div class="container-fluid">
 		    	<div class="navbar-header">
-		      		<a class="navbar-brand" href="#">My Events</a>
+		      		<a class="navbar-brand" href="index.php">My Events</a>
 		    	</div>
 		    	<ul class="nav navbar-nav">
 		      		<!--<li class="active"><a href="index.html">Home</a></li>-->

@@ -6,7 +6,9 @@
 
 	<?php 
 		// Loggin Control
-		include 'C:/xampp/htdocs/src/loginAuthentication.php';
+		include 'C:/xampp/htdocs/src/myEvents.php';
+		include 'C:/xampp/htdocs/src/memberLoginAuthentication.php';
+
 
 	?>
 
@@ -48,8 +50,8 @@
         					?>
         					<span class="glyphicon glyphicon-user"></a>
         				<ul class="dropdown-menu">
-          					<li><a href="404.php">Edit Profile</a></li>
-          					<li><a href="404.php">Log Out</a></li>
+          					<li><a href="edit_profile.php">Edit Profile</a></li>
+          					<li><a href="logout.php">Log Out</a></li>
         				</ul>
       				</li>
 		    	</ul>
@@ -86,6 +88,9 @@
 		<div class="container" style="margin-top: 10%;">
 			<div class="row">
 				<h2 class="text-info" style="text-align: center">DASHBOARD FOR HISTORY</h2>
+				<?php 
+					createLogTable();
+				?>
 			</div>
 		</div>
 

@@ -12,6 +12,49 @@ class DatabaseClient
 	function  closeConnection(){
 		$this->conn = oci_close($this->conn);
 	}
+
+	function getLogs($userID){
+		$sql = "select ML.LOGID, ML.LOGINFORMATION, ML.LOGDATE from MEMBERLOG ML where ML.USERID=" . (int)$userID ;
+		$stmt = oci_parse($this->conn, $sql);
+
+		oci_execute($stmt);
+		oci_fetch_all($stmt, $res);
+		return $res;
+	}
+
+	function updateUserPassword($userID, $password){
+    	$sql = 'BEGIN UPDATEUSERPASSWORD(:USRID, :USRPASSWORD); END;';
+  		$stmt = oci_parse($this->conn, $sql);
+
+		oci_bind_by_name($stmt, ':USRID', $userID);
+		oci_bind_by_name($stmt, ':USRPASSWORD', $password);
+
+		//execution
+		return oci_execute($stmt);
+	}
+
+	function updateMemberInfo($userID, $name, $phone, $email){
+    	$sql = 'BEGIN UPDATEMEMBERINFO(:USRID, :MBRNAME, :MBRPHONENUMBER, :MBREMAIL); END;';
+    	$stmt = oci_parse($this->conn, $sql);
+
+    	oci_bind_by_name($stmt, ':USRID', $userID);
+    	oci_bind_by_name($stmt, ':MBRNAME', $name);
+    	oci_bind_by_name($stmt, ':MBRPHONENUMBER', $phone);
+    	oci_bind_by_name($stmt, ':MBREMAIL', $email);
+
+    	oci_execute($stmt);
+
+	}
+
+	function updateMember($userID, $userName, $userPassword, $addresID, $memberName, $memberPhone, $memberMail){
+    	$sql = 'BEGIN UPDATEMEMBER(:USRID, :USRNAME, :USRPASSWORD, :USRTYPEID, :MBRTYPEID, :ADDID, :MBRNAME, :MBRPHONENUMBER, :MBREMAIL); END;';
+  		$stmt = oci_parse($this->conn, $sql);
+
+  		// TODO
+  		oci_execute($stmt);
+  	}
+
+
 	function isUsernameTaken($username){
 		$sql = 'BEGIN ISUSERNAMEUSED(:UNAME, :RES); END;';
 		$stmt = oci_parse($this->conn, $sql);
@@ -56,17 +99,16 @@ class DatabaseClient
 		
 		//execute
 		oci_execute($stmt);
-		echo gettype($addressID);
 		return $addressID;
 		
 	}
+
 	function getMembers(){
 		$sql = 'Select * FROM MEMBERS';
 		$stmt = oci_parse($this->conn, $sql);
 
 		oci_execute($stmt);
 		oci_fetch_all($stmt, $res);
-		echo gettype($res);
 
 
 		return $res;
@@ -79,12 +121,79 @@ class DatabaseClient
 
 		oci_execute($stmt);
 		oci_fetch_all($stmt, $res);
-		echo gettype($res);
 
 
 		return $res;
 		
 	}
+
+	function getEventtypeIDByeventtype($eventType){
+		$sql = "select ET.EVENTTYPEID  ETID FROM EVENTTYPE ET WHERE ET.EVENTTYPE='".$eventType."'";
+		$stmt = oci_parse($this->conn, $sql);
+
+		oci_execute($stmt);
+		oci_fetch_all($stmt, $res);
+
+		return $res['ETID'];
+	}
+	function getLocationidBylocationname($locationName){
+		$sql = "select L.LOCATIONID LID from LOCATION L WHERE L.LOCATIONNAME='".$locationName."'";
+		$stmt = oci_parse($this->conn, $sql);
+		oci_execute($stmt);
+		oci_fetch_all($stmt, $res);
+		return $res['LID'];
+	}
+	function getEventtypes(){
+		$sql = 'select * from eventtype';
+		$stmt = oci_parse($this->conn, $sql);
+
+		oci_execute($stmt);
+		oci_fetch_all($stmt, $res);
+		//$id = $res['ID'];
+		return $res['EVENTTYPE'];
+	}
+	function getLocations(){
+		$sql = 'select * from location';
+		$stmt = oci_parse($this->conn, $sql);
+
+		oci_execute($stmt);
+		oci_fetch_all($stmt, $res);
+		//$id = $res['ID'];
+		return $res['LOCATIONNAME'];
+	}
+
+
+
+	function addNewTicket($eventID, $ticketPrice, $ticketSeat){
+		$sql = 'BEGIN ADDNEWTICKET(:EVNTID, :TCKTSTATUSID, :TCKTPRICE, :TCKTSEAT); END;';
+		$stmt = oci_parse($this->conn, $sql);
+		
+		$ticketStatusID = 1;
+		oci_bind_by_name($stmt, ':EVNTID', $eventID);
+		oci_bind_by_name($stmt, ':TCKTSTATUSID', $ticketStatusID);
+		oci_bind_by_name($stmt, ':TCKTPRICE', $ticketPrice);
+		oci_bind_by_name($stmt, ':TCKTSEAT', $ticketSeat);
+
+		oci_execute($stmt);
+	}
+	function addNewEvent($eventTypeID, $locationID, $eventName, $eventInfo, $eventDate){
+		$sql = 'BEGIN ADDNEWEVENT(:LCATIONID, :EVNTTYPEID, :EVNTNAME, :EVNTINFORMATION , :EVNTDATE, :EID); END;';
+		$stmt = oci_parse($this->conn, $sql);
+		$tokens = explode("T", $eventDate);
+		$tempDate = $tokens[0]. " " . $tokens[1] ;
+		$eventID;
+		oci_bind_by_name($stmt, ':LCATIONID', $locationID);
+		oci_bind_by_name($stmt, ':EVNTTYPEID', $eventTypeID);
+		oci_bind_by_name($stmt, ':EVNTNAME', $eventName);
+		oci_bind_by_name($stmt, ':EVNTINFORMATION', $eventInfo);
+		oci_bind_by_name($stmt, ':EVNTDATE', $tempDate);
+		oci_bind_by_name($stmt, ':EID', $eventID, 20);
+
+		oci_execute($stmt);
+
+		return $eventID;
+	}
+
 	function addNewMember($username, $email, $name, $password, $street, $city, $phone, $postcode, $addID){
 		$result = False;
 
@@ -119,7 +228,6 @@ class DatabaseClient
 		$sql = 'BEGIN ADDNEWCOUNTRY(:CTRYNAME); END;';
 		$stmt = oci_parse($this->conn,$sql);
 		oci_bind_by_name($stmt,':CTRYNAME',$country,32);
-		echo 'OKAY';
 		oci_execute($stmt);
 	}
 
