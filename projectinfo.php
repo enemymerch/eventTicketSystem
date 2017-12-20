@@ -69,9 +69,9 @@
 						<ul class="list-group">
 							<li class="list-group-item list-group-item-danger"><h2>Admins</h2></li>
 							<li class="list-group-item list-group-item-info"><h4>Pages : Pages that are in usage of the admins.</h4></li>
-							<li class="list-group-item">welcome_admin.php : This page come after admin login.</li>
-							<li class="list-group-item">handling_events.php : This page is for adding, editing, deleting events.</li>
-							<li class="list-group-item">add_event.php : This page is for adding new event.</li>
+							<li class="list-group-item list-group-item-success">welcome_admin.php : This page come after admin login.</li>
+							<li class="list-group-item list-group-item-success">handling_events.php : This page is for adding, editing, deleting events.</li>
+							<li class="list-group-item list-group-item-success">add_event.php : This page is for adding new event.</li>
 							<li class="list-group-item">edit_event.php : This page is for editing specific event.</li>
 							<li class="list-group-item">delete_event.php : This page is for deleting event.</li>
 							<li class="list-group-item">members_history.php : This page is for keeping track of members usage history.</li>
