@@ -69,22 +69,22 @@
 			<div class="row">
 				<div class="col-xs-3">
 					<h2 class="text-info" style="text-align: center;">Handling Events</h2>
-					<h6 class="text-danger" style="text-align: center;"><a href="handling_events.php">Go to handle events.</a></h6>
+					<a href="handling_events.php"><h6 class="text-danger" style="text-align: center;">Go to handle events.</h6></a>
 				</div>
 				
 				<div class="col-xs-3">
 					<h2 class="text-info" style="text-align: center;">Member History</h2>
-					<h6 class="text-danger" style="text-align: center;"><a href="members_history.php">Go to Member History Page.</a></h6>
+					<a href="members_history.php"><h6 class="text-danger" style="text-align: center;">Go to Member History Page.</h6></a>
 				</div>
 
 				<div class="col-xs-3">
 					<h2 class="text-info" style="text-align: center;">Handling Gold Members</h2>
-					<h6 class="text-danger" style="text-align: center;"><a href="handling_gold_members.php">Go to handle gold members.</a></h6>
+					<a href="handling_gold_members.php"><h6 class="text-danger" style="text-align: center;">Go to handle gold members.</h6></a>
 				</div>
 
 				<div class="col-xs-3">
 					<h2 class="text-info" style="text-align: center;">Handling Discounts</h2>
-					<h6 class="text-danger" style="text-align: center;"><a href="handling_discounts.php">Go to Handle Discounts.</a></h6>
+					<a href="handling_discounts.php"><h6 class="text-danger" style="text-align: center;">Go to Handle Discounts.</h6></a>
 				</div>
 			</div>
 		</div>

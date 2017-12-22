@@ -20,14 +20,120 @@ function isEmpty($var){
 function getHash($var){
 	return md5($var);
 }
+function getEventTable(){
+	$dbClient = new DatabaseClient();
+	$dbClient->openConnection();
+	$htmlCode = "<select class=\"form-control\" id=\"event1\" name=\"event_table\"> ";
+	$events =  $dbClient->getEvents();
+	$eventIDs = $events["EVENTID"];
+	$eventNames = $events["EVENTNAME"];
+	$eventInfos = $events["EVENTINFORMATION"];
+	$eventDates = $events["EVENTDATE"];
 
 
+	echo  "<table class=\"table table-dark\"> <thead> <tr> 
+              <th scope=\"col\"></th>
+          
+            
+              <th scope=\"col\">Event ID</th>
+              <th scope=\"col\">Event Name</th>
+              <th scope=\"col\">Event Info</th>
+              <th scope=\"col\">Event Date</th>
+            </tr>
+          </thead>";
+    echo  "<tbody>";
+
+    for($i = 0; $i<count($eventIDs); $i++){
+	    echo "     <tr>
+	      <th scope=\"row\">".($i+1)."</th>
+	      <td>".$eventIDs[$i]."</td>
+	      <td>".$eventNames[$i]."</td>
+	      <td>".$eventInfos[$i]."</td>
+	      <td>".$eventDates[$i]."</td>".
+	    "</tr>";
+    }
+
+    echo " </tbody></table> ";
+
+    echo "</br></br></br>";
+    echo "Select id from the list;";
+
+
+    echo "<form method=\"POST\" action=\"".htmlspecialchars($_SERVER["PHP_SELF"]) ."\"> ";
+    echo "<div class=\"form-group\" >";
+
+    echo "<select class=\"form-control\" id=\"sel1\" name=\"evnt_id\"> ";
+	for($i = 0 ; count($eventIDs)>$i ; $i++){
+		echo '<option>'.( $eventIDs[$i] ).'</option>';
+	}
+	echo "</select>";
+
+	echo "<button type=\"submit\" id=\"select_button\" name=\"submit\" value=\"select_event\">Select</button>";
+	echo "</div>";
+	echo "</form>";
+	$dbClient->closeConnection();
+
+}
+    function getMemberTable(){
+        $dbClient = new DatabaseClient();
+        $dbClient->openConnection();
+        $members = $dbClient->getMembers();
+        $memberIDs = $members['USERID'];
+        $memberUsernames = $members['USERNAME'];
+
+        echo "<select class=\"form-control\" id=\"members\" name=\"memberData\"> ";
+        for($i = 0 ; count($memberIDs)>$i ; $i++){
+            echo '<option>'.( $memberIDs[$i] ). "-" . $memberUsernames[$i].'</option>';
+        }
+
+        echo "</select>";
+
+
+        $dbClient->closeConnection();
+
+    }
 function validateLogin($username1, $username2, $password1, $password2){
     	if(($username1==$username2) and( $password1 == $password2)){
     		return True;
     	}
     	return False;
     }
+function getLogTable($userID){
+    $dbClient = new DatabaseClient();
+    $dbClient->openConnection();
+
+    $sql_result = $dbClient->getLogs($userID);
+
+    $logIDs = $sql_result['LOGID'];
+    $logInfos = $sql_result['LOGINFORMATION'];
+    $logDates = $sql_result['LOGDATE'];
+    //echo count($logInfos);
+
+    echo "<table class=\"table table-dark\"> <thead> <tr> 
+          <th scope=\"col\"></th>
+      
+        
+          <th scope=\"col\">Log ID</th>
+          <th scope=\"col\">Log Information</th>
+          <th scope=\"col\">Log Date</th>
+        </tr>
+      </thead>";
+
+    echo  "<tbody>";
+    for($i = 0; $i<count($logIDs); $i++){
+        echo "     <tr>
+          <th scope=\"row\">".($i+1)."</th>
+          <td>".$logIDs[$i]."</td>
+          <td>".$logInfos[$i]."</td>
+          <td>".$logDates[$i]."</td>
+        </tr>";
+    }
+
+
+    echo " </tbody></table> ";
+
+
+}
 
 function getCountryTable(){
 	$dbClient = new DatabaseClient();

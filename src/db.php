@@ -102,7 +102,14 @@ class DatabaseClient
 		return $addressID;
 		
 	}
+    function deleteEventByID($eventID){
+        $sql = 'BEGIN DELETEEVENT(:EVNTID); END;';
+        $stmt = oci_parse($sql);
 
+        oci_bind_by_name($stmt, ':EVNTID', $eventID);
+
+        return oci_execute($stmt);
+    }
 	function getMembers(){
 		$sql = 'Select * FROM MEMBERS';
 		$stmt = oci_parse($this->conn, $sql);
@@ -125,6 +132,35 @@ class DatabaseClient
 
 		return $res;
 		
+	}
+
+	function updateEventByID($eventID, $eventName, $eventInfo){
+	    $sql = 'BEGIN UPDATEEVENT(:EVNTID, :EVNTNAME, :EVNTINFORMATION); END;';
+	    $stmt = oci_parse($this->conn, $sql);
+
+        oci_bind_by_name($stmt, ':EVNTID', $eventID);
+        oci_bind_by_name($stmt, ':EVNTNAME', $eventName);
+        oci_bind_by_name($stmt, ':EVNTINFORMATION', $eventInfo);
+
+        return oci_execute($stmt);
+    }
+    function getEventByID($eventID){
+	    $sql = 'select * from event where EVENTID = '. $eventID;
+	    $stmt = oci_parse($this->conn, $sql);
+
+	    oci_execute($stmt);
+	    oci_fetch_all($stmt, $res);
+
+	    return $res;
+    }
+	function getEvents(){
+		$sql = "select * from event";
+		$stmt = oci_parse($this->conn, $sql);
+
+		oci_execute($stmt);
+		oci_fetch_all($stmt, $res);
+
+		return $res;
 	}
 
 	function getEventtypeIDByeventtype($eventType){

@@ -82,7 +82,7 @@
 				</div>
 
 				<div class="col-xs-4">
-					<h2 class="text-info" style="text-align: center;">Handling Gold Members</h2>
+					<h2 class="text-info" style="text-align: center;">Delete Event</h2>
 					<h6 style="text-align: center;"><a class="text-danger" href="delete_event.php">Go Delete</a></h6>
 				</div>
 			</div>

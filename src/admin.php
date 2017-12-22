@@ -1,6 +1,38 @@
 <?php
 
-    function authenticateAdmin($username, $password){
+    function deleteEvent($eventID){
+        $dbClient = new DatabaseClient();
+        $dbClient->openConnection();
+
+        $result = $dbClient->deleteEventByID($eventID);
+
+        $dbClient->closeConnection();
+        return $result;
+    }
+    function updateEvent($eventID, $eventName, $eventInfo){
+        $dbClient = new DatabaseClient();
+        $dbClient->openConnection();
+
+        $res = $dbClient->updateEventByID($eventID, $eventName, $eventInfo);
+
+        $dbClient->closeConnection();
+        return $res;
+    }
+
+    function getSelectedEvent($selectedEventID){
+        $dbClient = new DatabaseClient();
+        $dbClient->openConnection();
+
+        $res = $dbClient->getEventByID($selectedEventID);
+        $eventName = $res['EVENTNAME'];
+        $eventInfo = $res['EVENTINFORMATION'];
+
+        $dbClient->closeConnection();
+
+        return array($eventName[0], $eventInfo[0]);
+    }
+
+function authenticateAdmin($username, $password){
         $dbClient = new DatabaseClient();
         $dbClient->openConnection();
 
@@ -40,7 +72,7 @@
       $locationID ;
       $temp = $dbClient->getLocationidBylocationname($locationName);
       if(gettype($temp) == "string" ){
-        $locationID = $tmep;
+        $locationID = $temp;
       }else{
         $locationID = $temp[0];
       }
@@ -49,7 +81,7 @@
       $eventTypeID;
       $temp = $dbClient->getEventtypeIDByeventtype($eventType);
       if(gettype($temp) == "string" ){
-        $eventTypeID = $tmep;
+        $eventTypeID = $temp;
       }else{
         $eventTypeID = $temp[0];
       }

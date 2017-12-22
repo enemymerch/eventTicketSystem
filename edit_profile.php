@@ -6,8 +6,8 @@
 
 	<?php 
 		// Loggin Control
+        include 'C:/xampp/htdocs/src/myEvents.php';
 		include 'C:/xampp/htdocs/src/memberLoginAuthentication.php';
-		include 'C:/xampp/htdocs/src/myEvents.php';
 
 		$update_password = "";
 		$update_name = "";

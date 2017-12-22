@@ -48,7 +48,7 @@
 			</div>
 			<div class="row">
 
-				<div class="col-xs-6">
+				<div class="col-xs-5 col-xs-offset-1">
 					<div class="row">
 						 <ul class="list-group">
 	  						<li class="list-group-item list-group-item-danger"><h2>Members</h2></li>
@@ -64,7 +64,7 @@
 						</ul> 
 					</div>
 				</div>
-				<div class="col-xs-6">
+				<div class="col-xs-5 col-xs-offset-1">
 					<div class="row">
 						<ul class="list-group">
 							<li class="list-group-item list-group-item-danger"><h2>Admins</h2></li>
@@ -72,9 +72,9 @@
 							<li class="list-group-item list-group-item-success">welcome_admin.php : This page come after admin login.</li>
 							<li class="list-group-item list-group-item-success">handling_events.php : This page is for adding, editing, deleting events.</li>
 							<li class="list-group-item list-group-item-success">add_event.php : This page is for adding new event.</li>
-							<li class="list-group-item">edit_event.php : This page is for editing specific event.</li>
-							<li class="list-group-item">delete_event.php : This page is for deleting event.</li>
-							<li class="list-group-item">members_history.php : This page is for keeping track of members usage history.</li>
+							<li class="list-group-item list-group-item-success">edit_event.php : This page is for editing specific event.</li>
+							<li class="list-group-item list-group-item-success">delete_event.php : This page is for deleting event.</li>
+							<li class="list-group-item list-group-item-success">members_history.php : This page is for keeping track of members usage history.</li>
 							<li class="list-group-item">handling_gold_members.php : This page is for editing gold members.</li>
 							<li class="list-group-item">handling_discounts.php : This page is for editing gold members.</li>
 						</ul>
