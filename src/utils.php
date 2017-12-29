@@ -1,5 +1,73 @@
 <?php 
 
+function getDiscountSelection(){
+	$dbClient = new DatabaseClient();
+	$dbClient->openConnection();
+	$result = $dbClient->getDiscounts();
+
+	$dicountIDs = $result["DISCOUNTID"];
+	$discountPercentages = $result["DISCOUNTPERCENTAGE"];
+
+    echo "<select class=\"form-control\" id=\"members\" name=\"discountData\"> ";
+	for($i = 0 ; count($dicountIDs)>$i ; $i++){
+        echo '<option>'.( $discountPercentages[$i] ). "-" . $dicountIDs[$i].'</option>';
+    }
+
+    echo "</select>";
+
+
+	$dbClient->closeConnection();
+
+}
+
+function getDiscountTable(){
+	$dbClient = new DatabaseClient();
+	$dbClient->openConnection();
+	$result = $dbClient->getDiscounts();
+
+	$discountIDs = $result['DISCOUNTID'];
+	$discountPercentages = $result['DISCOUNTPERCENTAGE'];
+	
+
+	echo  "<table class=\"table table-dark\"> <thead> <tr> 
+              <th scope=\"col\"></th>
+              <th scope=\"col\">Discount ID</th>
+              <th scope=\"col\">Discount Percentage</th>
+            </tr>
+          </thead>";
+    echo  "<tbody>";
+	
+	for($i = 0; $i<count($discountIDs); $i++){
+		echo "     <tr>
+			<th scope=\"row\">".($i+1)."</th>
+				<td>".$discountIDs[$i]."</td>
+				<td>".$discountPercentages[$i]."</td>".
+			"</tr>";
+    }
+    echo " </tbody></table> ";
+    echo "</br></br></br>";
+
+	$dbClient->closeConnection();
+
+}
+function getNormalMemberSelection(){
+    $dbClient = new DatabaseClient();
+    $dbClient->openConnection();
+    $members = $dbClient->getNormalMembers();
+    $memberIDs = $members['USERID'];
+    $memberUsernames = $members['USERNAME'];
+
+    echo "<select class=\"form-control\" id=\"members\" name=\"memberData\"> ";
+    for($i = 0 ; count($memberIDs)>$i ; $i++){
+        echo '<option>'.( $memberIDs[$i] ). "-" . $memberUsernames[$i].'</option>';
+    }
+
+    echo "</select>";
+
+
+    $dbClient->closeConnection();
+
+}
 
 function getGoldMemberSelection(){
 
@@ -126,24 +194,7 @@ function getEventTable(){
 
 }
 
-    function getNormalMemberSelection(){
-        $dbClient = new DatabaseClient();
-        $dbClient->openConnection();
-        $members = $dbClient->getNormalMembers();
-        $memberIDs = $members['USERID'];
-        $memberUsernames = $members['USERNAME'];
 
-        echo "<select class=\"form-control\" id=\"members\" name=\"memberData\"> ";
-        for($i = 0 ; count($memberIDs)>$i ; $i++){
-            echo '<option>'.( $memberIDs[$i] ). "-" . $memberUsernames[$i].'</option>';
-        }
-
-        echo "</select>";
-
-
-        $dbClient->closeConnection();
-
-    }
     function getMemberTable(){
         $dbClient = new DatabaseClient();
         $dbClient->openConnection();

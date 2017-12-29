@@ -1,4 +1,18 @@
 <?php
+  
+    function makeMemberGold($memberID, $discountID){
+      $dbClient = new DatabaseClient();
+      $dbClient->openConnection();
+
+      $result = $dbClient->addNewGoldMember($memberID, $discountID);
+
+
+      $dbClient->closeConnection();
+    
+      return $result;
+    }
+
+
     function addNewDiscount($discountPercentage){
 
         // chechking if discount exits

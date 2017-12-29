@@ -12,7 +12,17 @@ class DatabaseClient
 	function  closeConnection(){
 		$this->conn = oci_close($this->conn);
 	}
+	//New function
+	function addNewGoldMember($userID, $discountID){
+        $sql = 'BEGIN ADDNEWGOLDMEMBER(:USRID, :DSCOUNTID); END;';
+        $stmt = oci_parse($this->conn, $sql);
+        
 
+        oci_bind_by_name($stmt, ':USRID', intval($userID));
+        oci_bind_by_name($stmt, ':DSCOUNTID', intval($discountID));
+
+        return oci_execute($stmt);
+	}
 
 	function getNormalMembers(){
 		$sql = "select * from NORMALMEMBERS";
@@ -40,7 +50,7 @@ class DatabaseClient
         return oci_execute($stmt);
     }
     function getDiscounts(){
-	    $sql = "SELECT * FROM DISCOUNT";
+	    $sql = "select * from DISCOUNT order by DISCOUNTID";
 	    $stmt = oci_parse($this->conn, $sql);
 
 	    oci_execute($stmt);

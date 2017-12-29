@@ -34,18 +34,19 @@
 		      		<a class="navbar-brand" href="welcome_admin.php">My Events</a>
 		    	</div>
 		    	<ul class="nav navbar-nav">
-		      		<li class="active"><a href="welcome_admin.php">Home</a></li>
+		      		<li><a href="welcome_admin.php">Home</a></li>
 		      		<li class="dropdown">
         				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        					Events
-        					<span class="glyphicon glyphicon-user"></a>
+        					Events</a>
         				<ul class="dropdown-menu">
           					<li><a href="add_event.php">Add Event</a></li>
           					<li><a href="edit_event.php">Edit Event</a></li>
           					<li><a href="delete_event.php">Delete Event</a></li>
         				</ul>
       				</li>
-
+      				<li><a href="members_history.php">Member History</a></li>
+      				<li><a href="handling_gold_members.php">Handling Gold Members</a></li>
+		    		<li><a href="handling_discounts.php">Handling Discounts</a></li>
 		    	</ul>
 
 		    	<ul class="nav navbar-nav navbar-right">
