@@ -1,6 +1,57 @@
 <?php 
 
 
+function getGoldMemberSelection(){
+
+	$dbClient = new DatabaseClient();
+	$dbClient->openConnection();
+	$result = $dbClient->getGoldMembers();
+
+	$userIDs = $result['USERID'];
+	$discountIDs = $result['DISCOUNTID'];
+	$discountPercentages = $result['DISCOUNTPERCENTAGE'];
+	
+
+}
+
+function getGoldMemberTable(){
+	$dbClient = new DatabaseClient();
+	$dbClient->openConnection();
+	$result = $dbClient->getGoldMembers();
+
+	$userIDs = $result['USERID'];
+	$discountIDs = $result['DISCOUNTID'];
+	$discountPercentages = $result['DISCOUNTPERCENTAGE'];
+	
+
+	echo  "<table class=\"table table-dark\"> <thead> <tr> 
+              <th scope=\"col\"></th>
+              <th scope=\"col\">Member ID</th>
+              <th scope=\"col\">Discount ID</th>
+              <th scope=\"col\">Discount Percentage</th>
+            </tr>
+          </thead>";
+    echo  "<tbody>";
+	
+	for($i = 0; $i<count($userIDs); $i++){
+		echo "     <tr>
+			<th scope=\"row\">".($i+1)."</th>
+				<td>".$userIDs[$i]."</td>
+				<td>".$discountIDs[$i]."</td>
+				<td>".$discountPercentages[$i]."</td>".
+			"</tr>";
+    }
+    echo " </tbody></table> ";
+    if(count($userIDs) == 0){
+    	echo '<h5 class=\"text-danger\">No Gold Member</h5>';
+    }
+    echo "</br></br></br>";
+
+	$dbClient->closeConnection();
+
+}
+
+
 function redirect($url, $statusCode = 303)
 {
    header('Location: ' . $url, true, $statusCode);
@@ -74,6 +125,25 @@ function getEventTable(){
 	$dbClient->closeConnection();
 
 }
+
+    function getNormalMemberSelection(){
+        $dbClient = new DatabaseClient();
+        $dbClient->openConnection();
+        $members = $dbClient->getNormalMembers();
+        $memberIDs = $members['USERID'];
+        $memberUsernames = $members['USERNAME'];
+
+        echo "<select class=\"form-control\" id=\"members\" name=\"memberData\"> ";
+        for($i = 0 ; count($memberIDs)>$i ; $i++){
+            echo '<option>'.( $memberIDs[$i] ). "-" . $memberUsernames[$i].'</option>';
+        }
+
+        echo "</select>";
+
+
+        $dbClient->closeConnection();
+
+    }
     function getMemberTable(){
         $dbClient = new DatabaseClient();
         $dbClient->openConnection();

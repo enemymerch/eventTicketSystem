@@ -13,6 +13,40 @@ class DatabaseClient
 		$this->conn = oci_close($this->conn);
 	}
 
+
+	function getNormalMembers(){
+		$sql = "select * from NORMALMEMBERS";
+        $stmt = oci_parse($this->conn, $sql);
+        oci_execute($stmt);
+	    oci_fetch_all($stmt, $res);
+	    return $res;
+	}
+
+
+	function getGoldMembers(){
+		$sql = "select * from goldmembers";
+        $stmt = oci_parse($this->conn, $sql);
+        oci_execute($stmt);
+	    oci_fetch_all($stmt, $res);
+	    return $res;
+	}
+
+	function addDiscount($discountPercentage){
+        $sql = 'BEGIN ADDNEWDISCOUNT(:PERCENTAGE); END;';
+        $stmt = oci_parse($this->conn, $sql);
+
+        oci_bind_by_name($stmt, ':PERCENTAGE', $discountPercentage);
+
+        return oci_execute($stmt);
+    }
+    function getDiscounts(){
+	    $sql = "SELECT * FROM DISCOUNT";
+	    $stmt = oci_parse($this->conn, $sql);
+
+	    oci_execute($stmt);
+	    oci_fetch_all($stmt, $res);
+	    return $res;
+    }
 	function getLogs($userID){
 		$sql = "select ML.LOGID, ML.LOGINFORMATION, ML.LOGDATE from MEMBERLOG ML where ML.USERID=" . (int)$userID ;
 		$stmt = oci_parse($this->conn, $sql);

@@ -1,5 +1,51 @@
 <?php
+    function addNewDiscount($discountPercentage){
 
+        // chechking if discount exits
+        if(!doesDiscountExits($discountPercentage)){
+            // does not exits
+            // can add as new
+            $dbClient = new DatabaseClient();
+            $dbClient->openConnection();
+            $result = $dbClient->addDiscount($discountPercentage);
+            $dbClient->closeConnection();
+
+            if($result){
+                return 1;
+            }
+        }else{
+
+            return 0;
+        }
+    }
+
+    function doesDiscountExits($discountPercentage){
+        $discounts = getAllDiscounts();
+
+        $discountIDs = $discounts[0];
+        $discountPercentages = $discounts[1];
+
+        for($i = 0;$i<count($discountIDs); $i++){
+            if($discountPercentages[$i] == $discountPercentage){
+                return True;
+            }
+        }
+
+        return False;
+    }
+    function getAllDiscounts(){
+        $dbClient = new DatabaseClient();
+        $dbClient->openConnection();
+
+        $discounts = $dbClient->getDiscounts();
+
+        $discountIDs = $discounts['DISCOUNTID'];
+        $discountPercentages = $discounts['DISCOUNTPERCENTAGE'];
+
+        $dbClient->closeConnection();
+
+        return array($discountIDs, $discountPercentages);
+    }
     function deleteEvent($eventID){
         $dbClient = new DatabaseClient();
         $dbClient->openConnection();
