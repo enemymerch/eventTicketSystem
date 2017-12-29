@@ -75,8 +75,8 @@
 							<li class="list-group-item list-group-item-success">edit_event.php : This page is for editing specific event.</li>
 							<li class="list-group-item list-group-item-success">delete_event.php : This page is for deleting event.</li>
 							<li class="list-group-item list-group-item-success">members_history.php : This page is for keeping track of members usage history.</li>
-							<li class="list-group-item">handling_gold_members.php : This page is for editing gold members.</li>
-							<li class="list-group-item">handling_discounts.php : This page is for editing gold members.</li>
+							<li class="list-group-item list-group-item-success">handling_gold_members.php : This page is for editing gold members.</li>
+							<li class="list-group-item list-group-item-success">handling_discounts.php : This page is for editing gold members.</li>
 						</ul>
 					</div>
 				</div>
