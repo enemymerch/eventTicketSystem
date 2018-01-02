@@ -53,8 +53,8 @@
 		    	</div>
 		    	<ul class="nav navbar-nav">
 		      		<li class="active"><a href="welcome_member.php">Home</a></li>
-		      		<li><a href="search_events.php">Events</a></li>
-
+		      		<li><a href="search_events.php">Search Events</a></li>
+		      		<li><a href="myTickets.php">My Tickets</a></li>
 		    	</ul>
 
 		    	<ul class="nav navbar-nav navbar-right">
@@ -68,6 +68,7 @@
         					?>
         					<span class="glyphicon glyphicon-user"></a>
         				<ul class="dropdown-menu">
+        					<li><a href="myTickets.php">My Tickets</a></li>
           					<li><a href="edit_profile.php">Edit Profile</a></li>
           					<li><a href="logout.php">Log Out</a></li>
         				</ul>
@@ -75,7 +76,6 @@
 		    	</ul>
 		  	</div>
 		</nav> 
-
 
 
 

@@ -28,36 +28,37 @@
 <body>
 
 
-<!-- NAVBAR  -->
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="welcome_member.php">My Events</a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li class="active"><a href="welcome_member.php">Home</a></li>
-            <li><a href="search_events.php">Events</a></li>
-
-        </ul>
-
-        <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <?php
-                    if(!isset($_SESSION)){
-                        session_start();
-                    }
-                    echo $_SESSION["USERNAME"];
-                    ?>
-                    <span class="glyphicon glyphicon-user"></a>
-                <ul class="dropdown-menu">
-                    <li><a href="edit_profile_php">Edit Profile</a></li>
-                    <li><a href="logout.php">Log Out</a></li>
+        <!-- NAVBAR  -->
+         <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="welcome_member.php">My Events</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="welcome_member.php">Home</a></li>
+                    <li><a href="search_events.php">Search Events</a></li>
+                    <li><a href="myTickets.php">My Tickets</a></li>
                 </ul>
-            </li>
-        </ul>
-    </div>
-</nav>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <?php                   
+                                if(!isset($_SESSION)){
+                                    session_start();
+                                }
+                                echo $_SESSION["USERNAME"];
+                            ?>
+                            <span class="glyphicon glyphicon-user"></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="myTickets.php">My Tickets</a></li>
+                            <li><a href="edit_profile.php">Edit Profile</a></li>
+                            <li><a href="logout.php">Log Out</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav> 
 
 <div class="container" style="margin-top: 10%;">
     <div class="row">

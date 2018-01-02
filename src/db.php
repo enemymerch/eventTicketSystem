@@ -181,6 +181,7 @@ class DatabaseClient
 
 	//New function
 	function addNewGoldMember($userID, $discountID){
+        $sql = 'BEGIN ADDNEWGOLDMEMBER(:USRID, :DSCOUNTID); END;';
         $stmt = oci_parse($this->conn, $sql);
         
 
