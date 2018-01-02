@@ -9,7 +9,25 @@
 		include 'C:/xampp/htdocs/src/myEvents.php';
 		include 'C:/xampp/htdocs/src/memberLoginAuthentication.php';
 
-
+		$default_eventType = "Theater";
+		//functin checkSession()
+		if(isset($_SESSION['selectedEventType'])){
+			$eventType  = $_SESSION['selectedEventType'];
+		}else{
+			$eventType = $default_eventType;
+		}
+		$goEventCategoryPageInfo = "";
+		if($_SERVER['REQUEST_METHOD'] == "POST"){
+			if($_POST['submit'] == "goEventCategory"){ // post for login
+		            $event_type = $_POST['event_type'];
+		            if(isset($_SESSION)){
+		            	$_SESSION['selectedEventType'] = $event_type;	   
+						redirect("related_event.php");
+		            }else{
+		            	$goEventCategoryPageInfo = "No, you cannot see this page! Somethings wrong! SOS";	
+		            }
+		    }
+		}
 	?>
 
 		<title>myticket</title>
@@ -58,39 +76,33 @@
 		  	</div>
 		</nav> 
 
-		<div class="container" style="margin-top: 10%; ">
-			<div class="row">
-				<div class="col-xs-3 col-xs-offset-2">
-					<h2 class="text-info" style="text-align: center">SEARCH FOR EVENTS</h2>
-					</br>
-						<button  class="btn btn-default center-block" name="submit" value="search" ><a href="search_events.php">SEARCH</a></button>
-                    </br>
-                    </br>
 
-                    <h2 class="text-info" style="text-align: center">MY TICKETS</h2>
-                    </br>
-                        <button  class="btn btn-default center-block" name="submit" value="search" ><a href="mytickets.php">MY TICKETS</a></button>
-                    </br>
-                    </br>
-                </div>
-				<div class="col-xs-3 col-xs-offset-2">
-					<h2 class="text-info" style="text-align: center">YOUR PROFILE</h2>
-					</br>
-                    <img src=<?php echo getPicPath(); ?> class="img-circle" alt="Profile Picture" width="304" height="236">
-					</br>
-                    </br>
-						<button  class="btn btn-default center-block" name="submit" value="edit"><a href="edit_profile.php">GO TO PROFILE</a></button>
+
+
+		<div class="container" style="margin-top: 8%; ">
+			<div class="row">
+				<div class="col-xs-10">
+				<h2 class="text-info" style="text-align: center;"><?php echo "Selected Category: " .$eventType;?></h2>	
+					<?php getSelectedCategoryEvents($eventType);?>				
+				</div>
+				
+				<div class="col-xs-2">
+					<h4 style="text-align: center;">Go to Another Event Category Page</h4>
+					<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">
+						<div class="form-group">
+							</br>
+							<label for="evenType">Select Event Type</label>
+							<?php echo getEventtypeTable(); ?>
+							</br>
+							<button type="submit" name="submit" value="goEventCategory"  class="btn btn-default">Go</button>
+							</br>
+							<h3 class="text-info" style="text-align: center;"><?php echo $goEventCategoryPageInfo; ?></h3>
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
-		<div class="container" style="margin-top: 10%;">
-			<div class="row">
-				<h2 class="text-info" style="text-align: center">DASHBOARD FOR HISTORY</h2>
-				<?php 
-					createLogTable();
-				?>
-			</div>
-		</div>
+
 
 	 	<footer style="margin-top: 20%">
 	 	</footer>

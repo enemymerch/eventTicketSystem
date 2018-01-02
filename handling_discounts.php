@@ -9,15 +9,24 @@
     include 'C:/xampp/htdocs/src/myEvents.php';
     include 'C:/xampp/htdocs/src/adminLoginAuthentication.php';
 
-    $delete_result = "";
+
+    $percentageInfo = "";
 
     if($_SERVER['REQUEST_METHOD'] == "POST"){
-        if($_POST['submit'] == "select_event"){
-            $selectedEventID = $_POST['evnt_id'];
-            if(deleteEvent($selectedEventID)){
-                $delete_result = "Event succesfully deleted!";
+        if($_POST['submit'] == "addDiscount"){
+            $percentage = $_POST['percentage'];
+            if( !is_numeric($percentage)){
+                $percentageInfo = "Must be numeric!";
+            }else if(((int)$percentage)>70){
+                $percentageInfo = "Cannot be bigger than %70";
+            }else{
+                $result = addNewDiscount($percentage);
+                if($result == 1){
+                    $percentageInfo = "New discount added to the system!";
+                }else if($result == 0){
+                    $percentageInfo = "Somethings went wrong!";
+                }
             }
-            $delete_result = "Somethings went wrong!";
         }
     }
 
@@ -86,19 +95,27 @@
                 </ul>
             </div>
         </nav> 
-
 <div class="container" style="margin-top: 10%; ">
     <div class="row">
-        <div class="col-xs-8 col-xs-offset-2">
-            <h1 style="text-align: center;">Delete Events</h1>
+        <h1 style="text-align: center;">Handling Discounts</h1>
+        <div class="col-xs-4 col-xs-offset-1">
+            <h3 style="text-align: center;">Add a new discount type</h3>
             </br></br>
-            <h4 style="text-align: center;">Select Event to Delete</h4>
-            </br></br>
-            <?php getEventTable();?>
+            <div class="form-group">
+                <form method="POST" action="handling_discounts.php">
+                    <label for="discountPercentage">Percentage : <?php echo $percentageInfo; ?></label>
+                    <input type="number" name="percentage" class="form-control">
+                    </br>
+                    <button type="submit" name="submit" value="addDiscount">Add</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-xs-4 col-xs-offset-1">
+            <h3 style="text-align: center;">Current Discounts in the system!</h3>
+                <?php getDiscountTable();?>
+        </div>
+        <div class="col-xs-4">
 
-            </br>
-            </br>
-            <h6 class="text-danger" style="text-align: center;"><php echo $delete_result; ?></h6>
         </div>
     </div>
 </div>

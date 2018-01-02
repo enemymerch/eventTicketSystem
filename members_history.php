@@ -9,29 +9,23 @@
     include 'C:/xampp/htdocs/src/myEvents.php';
     include 'C:/xampp/htdocs/src/adminLoginAuthentication.php';
 
-    $delete_result = "";
+    $isMemberSelected = False;
+    $selectedMemberID = "";
+
 
     if($_SERVER['REQUEST_METHOD'] == "POST"){
-        if($_POST['submit'] == "select_event"){
-            $selectedEventID = $_POST['evnt_id'];
-            if(deleteEvent($selectedEventID)){
-                $delete_result = "Event succesfully deleted!";
-            }
-            $delete_result = "Somethings went wrong!";
+        if($_POST['submit'] == "selectMember"){
+            $memberData = $_POST['memberData'];
+            $tokens= explode("-",$memberData);
+            $selectedMemberID= $tokens[0];
+            $selectedMembername = $tokens[1];
+            $isMemberSelected = True;
         }
     }
 
 
     ?>
 
-    <script type="text/javascript">
-        function updateButtonText() {
-            deleteButton = document.getElementById("select_button");
-
-            deleteButton.innerText = "Delete";
-        }
-        window.onload = updateButtonText;
-    </script>
     <title>myticket</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -90,15 +84,31 @@
 <div class="container" style="margin-top: 10%; ">
     <div class="row">
         <div class="col-xs-8 col-xs-offset-2">
-            <h1 style="text-align: center;">Delete Events</h1>
+            <h1 style="text-align: center;">Member History</h1>
             </br></br>
-            <h4 style="text-align: center;">Select Event to Delete</h4>
+            <h4 style="text-align: center;">Select Member</h4>
             </br></br>
-            <?php getEventTable();?>
-
-            </br>
-            </br>
-            <h6 class="text-danger" style="text-align: center;"><php echo $delete_result; ?></h6>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-3 col-xs-offset-1">
+            <div class="form-group">
+                <h3 class="text-info" style="text-align: center;">Members</h3>
+                <form action="members_history.php" method="POST">
+                    <h6 class="text-succes" style="text-align: center;">USERID-USERNAME</h6>
+                    <?php getMemberTable();?>
+                    <button class="btn btn-default" type="submit" name="submit" value="selectMember">Select</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-xs-7 col-xs-offset-1">
+            <?php
+            if($isMemberSelected){
+                echo "<h6 class='text-danger'>Selected Members userID: ". $selectedMemberID."</h6>";
+                echo "<h6 class='text-danger'>Selected Members username: ". $selectedMembername."</h6>";
+                getLogTable($selectedMemberID);
+            }
+            ?>
         </div>
     </div>
 </div>

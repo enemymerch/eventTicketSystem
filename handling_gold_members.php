@@ -10,6 +10,32 @@
 		include 'C:/xampp/htdocs/src/adminLoginAuthentication.php';
 
 
+    $makeGoldInfo = "";
+
+    if($_SERVER['REQUEST_METHOD'] == "POST"){
+        if($_POST['submit'] == "makeGold"){
+        	$discountData = $_POST['discountData'];
+        	$memberData = $_POST['memberData'];
+
+        	$dicountTokens = explode("-", $discountData);
+        	$memberTokens = explode("-", $memberData);
+
+        	if(( count($dicountTokens)==2) and( count($memberTokens)==2)){
+        		$discountID = $dicountTokens[1];
+        		$memberID = $memberTokens[0];
+
+        		$result = makeMemberGold($memberID, $discountID);
+
+        		if($result){
+        			$makeGoldInfo = "Member succesfully made goldMember!";
+        		}else{
+        			$makeGoldInfo = "OMG, Cannot Make Member gold!";
+        		}
+        	}else{
+        		$makeGoldInfo = "Somethings went wrong!";
+        	}
+        }
+    }
 	?>
 
 		<title>myticket</title>
@@ -69,25 +95,25 @@
 
 		<div class="container" style="margin-top: 10%; ">
 			<div class="row">
-				<div class="col-xs-3">
-					<h2 class="text-info" style="text-align: center;">Handling Events</h2>
-					<a href="handling_events.php"><h6 class="text-danger" style="text-align: center;">Go to handle events.</h6></a>
+				<h2 class="text-danger" style="text-align: center;">Handing Gold Members</h2>
+				<div class="col-xs-4 col-xs-offset-1">
+					<h4 class="text-info" style="text-align: center;">Currnet Gold Members</h4>
+					<?php getGoldMemberTable();?>
 				</div>
-				
-				<div class="col-xs-3">
-					<h2 class="text-info" style="text-align: center;">Member History</h2>
-					<a href="members_history.php"><h6 class="text-danger" style="text-align: center;">Go to Member History Page.</h6></a>
+				<div class="col-xs-4 col-xs-offset-2">
+					<h4 class="text-info"  style="text-align: center;">Make Gold Members</h4>
+					<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">
+						<div class="form-group">
+							<?php getNormalMemberSelection(); ?>
+							</br>
+							<?php  getDiscountSelection(); ?>
+							</br>
+							<button type="submit" name="submit" value="makeGold" class="btn btn-default">Make Gold</button>
+							<h4 class="text-succes" style="text-align: center;"><?php echo $makeGoldInfo ;?></h4>
+						</div>
+					</form>	
 				</div>
 
-				<div class="col-xs-3">
-					<h2 class="text-info" style="text-align: center;">Handling Gold Members</h2>
-					<a href="handling_gold_members.php"><h6 class="text-danger" style="text-align: center;">Go to handle gold members.</h6></a>
-				</div>
-
-				<div class="col-xs-3">
-					<h2 class="text-info" style="text-align: center;">Handling Discounts</h2>
-					<a href="handling_discounts.php"><h6 class="text-danger" style="text-align: center;">Go to Handle Discounts.</h6></a>
-				</div>
 			</div>
 		</div>
 
