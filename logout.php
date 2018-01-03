@@ -6,19 +6,27 @@
 	<?php 
 	function logOut(){
 		if(isset($_SESSION)){
+			if($_SESSION['USERTYPE']==1){
+
+			}else{
 			$dbClient = new DatabaseClient();
 			$dbClient->openConnection();
 			$dbClient->addNewMemberLog($_SESSION["USERID"], "Logged  out!");
 			$dbClient->closeConnection();
     		session_destroy();
+			}
 		}else{
 			session_start();
 			if(isset($_SESSION["USERID"])){
-				include "src/db.php";
-				$dbClient = new DatabaseClient();
-				$dbClient->openConnection();
-				$dbClient->addNewMemberLog($_SESSION["USERID"], "Logged  out!");
-				$dbClient->closeConnection();	
+				echo 
+				if($_SESSION['USERTYPE']==1){
+					include "src/db.php";
+					$dbClient = new DatabaseClient();
+					$dbClient->openConnection();
+					$dbClient->addNewMemberLog($_SESSION["USERID"], "Logged  out!");
+					$dbClient->closeConnection();	
+				
+				}
 			}
 	    	session_destroy();
 		}

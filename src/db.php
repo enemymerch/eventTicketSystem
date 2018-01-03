@@ -2,7 +2,7 @@
 class DatabaseClient
 {
     // property declaration
-    public	$db = "(DESCRIPTION=(ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521)))(CONNECT_DATA=(SID=dbs)))" ;
+    public	$db = "(DESCRIPTION=(ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = dbs.cs.hacettepe.edu.tr)(PORT = 1521)))(CONNECT_DATA=(SID=dbs)))" ;
 	public	$conn = NULL;
 
 	function  openConnection(){

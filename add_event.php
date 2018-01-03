@@ -6,8 +6,8 @@
 
 	<?php 
 		// Loggin Control
-		include 'C:/xampp/htdocs/src/myEvents.php';
-		include 'C:/xampp/htdocs/src/adminLoginAuthentication.php';
+		include 'src/myEvents.php';
+		include 'src/adminLoginAuthentication.php';
 
 		$event_name = "";
 		$event_info = "";

@@ -22,7 +22,7 @@ $reg_info = "";
 
 
 <?php 
-include 'C:/xampp/htdocs/src/myEvents.php';
+include 'src/myEvents.php';
 
 
 if($_SERVER['REQUEST_METHOD'] == "POST"){

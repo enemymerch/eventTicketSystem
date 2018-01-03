@@ -3,13 +3,13 @@
         $included_files = get_included_files();
         $isIncluded = False;
         foreach ($included_files as $filename) {
-            if($filename == "C:\\xampp\\htdocs\\src\\utils.php"){
+            if($filename == "src/utils.php"){
                 $isIncluded = True;
             }
 
         }
         if(!$isIncluded){
-            include "utils.php";
+            //include "utils.php";
         }
 
         // Loggin Control

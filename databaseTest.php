@@ -1,7 +1,7 @@
 
 <?php
 
-	include 'C:/xampp/htdocs/src/db.php';
+	include 'src/db.php';
 
 	$test = new DatabaseClient();
 	$test->openConnection();

@@ -6,8 +6,8 @@
 
     <?php
     // Loggin Control
-    include 'C:/xampp/htdocs/src/myEvents.php';
-    include 'C:/xampp/htdocs/src/memberLoginAuthentication.php';
+    include 'src/myEvents.php';
+    include 'src/memberLoginAuthentication.php';
 
     $giveBackInfo = "";
 
