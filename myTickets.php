@@ -18,7 +18,8 @@
 
             if($_POST['ticketData']){
 
-                $result = giveBackPurchase($ticketID);
+                $result = giveBackPurchase($_SESSION['USERID'], $ticketID);
+
 
                 if($result){
                     $giveBackInfo = "Giving back succesfully done!";

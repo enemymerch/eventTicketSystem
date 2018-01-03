@@ -31,12 +31,13 @@
 
   }
   
-  function giveBackPurchase($ticketID) //new function
+  function giveBackPurchase($userID, $ticketID) //new function
   { 
         $dbClient = new DatabaseClient();
         $dbClient->openConnection();
         $result = $dbClient->deletePurchase($ticketID);
-
+        $log = "Gived back ticket with ID: ".$ticketID;
+        $dbClient->addNewMemberLog($userID, $log);
         $dbClient->closeConnection();
 
         return $result;

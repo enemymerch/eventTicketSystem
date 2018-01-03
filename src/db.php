@@ -60,7 +60,7 @@ class DatabaseClient
 	}
     function getPurchased($userid) // edited function
 	{
-        $sql = "select P.TICKETID ID from PURCHASE P WHERE P.USERID =". (int)$userid;
+        $sql = "select P.TICKETID ID from PURCHASE P WHERE P.USERID =". (int)$userid . " ORDER BY P.PURCHASEID DESC";
         $stmt = oci_parse($this->conn, $sql);
         oci_execute($stmt);
         oci_fetch_all($stmt, $res);
@@ -128,7 +128,7 @@ class DatabaseClient
 				ON A.COUNTRYID=C.COUNTRYID
 				INNER JOIN LOCATIONTYPE LT
 				ON L.LOCATIONTYPEID=LT.LOCATIONTYPEID
-				WHERE U.USERID =". (int)$userid;
+				WHERE U.USERID =". (int)$userid." ORDER BY P.PURCHASEID DESC" ;
         $stmt = oci_parse($this->conn, $sql);
 
         oci_execute($stmt);

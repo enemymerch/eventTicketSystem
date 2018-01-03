@@ -28,7 +28,7 @@
 			if(! isset($_GET['eventID'])){
 				redirect("search_events.php");
 			}else{
-				$eventID = $_GET['eventID'];
+				$eventID = $_GET['submit'];
 				$eventData = getEventData($eventID);
 				if(count($eventData['EVENTID'])==0){
 					redirect("search_events.php");

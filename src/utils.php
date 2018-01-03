@@ -2,13 +2,13 @@
 
 
 function getEventDiv($eventID, $eventName, $eventInfo, $eventDate){
-	$htmlCode = 	"	<div class='row'>
+	$htmlCode = 	"<div class='row'>
 			<h4>".$eventName."</h4>
 			<h6>".$eventInfo."</h6>
 			<div class='form-group'>
 				<form action='event.php' method='GET'>
 					<input style='display: none;' type='text' name='eventID' value='".$eventID."'>			
-					<button type='submit' name='submit' value='goToEvent' class='btn btn-info'>Go to Event Page</button>
+					<button type='submit' name='submit' value='".$eventID."' class='btn btn-info'>Go to Event Page</button>
 				</forrm>
 			</div>
 		</div>";
