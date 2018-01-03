@@ -4,11 +4,11 @@
 <head>
 
 	<script>
-		function updatePrice(ticketPrice){
+		function updatePrice(ticketPrice, discountPercentage = 0){
 			myLabel = document.getElementById("totalPrice");
 			myInput = document.getElementById("ticketNumber");
 			ticketNumber = parseInt(myInput.value);
-			myLabel.innerHTML = "Total : " + (ticketNumber*ticketPrice);
+			myLabel.innerHTML = "Total : " + (ticketNumber*ticketPrice*((100-discountPercentage)/100));
 		}
 	</script>
 
@@ -36,6 +36,7 @@
 		$avaliableTicketNumber = 0;
 		$ticketPrice = 1;
 		$isGoldMember = False;
+		$discountPercentage = 0;
 
 		if($_SERVER['REQUEST_METHOD'] == "GET"){
 			if(! isset($_GET['eventID'])){
@@ -62,14 +63,17 @@
 				$avaliableTicketNumber = getAvailableTicketNumber($eventID);
 				$ticketPrice = getTicketPrice($eventID);
 				$isGoldMember = isGoldMember($_SESSION["USERID"]);
-
+				$_SESSION['ISGOLDMEMBER'] = $isGoldMember;
+				if($isGoldMember){
+					$discountPercentage = getDiscountPercentage($_SESSION["USERID"]);
+				}
 			}		
 		}else if($_SERVER['REQUEST_METHOD'] == "POST"){
 			if($_POST["submit"] = "doPurchase"){
 				$ticketNumber = $_POST['ticketNumber'];
 				$eventID  = $_SESSION['eventID'];
-				if(purchaseTickets($ticketNumber, $eventID, $_SESSION['USERID'], $isGoldMember)){
-					//redirect("myTickets.php?submit=doPurchase");
+				if(purchaseTickets($ticketNumber, $eventID, $_SESSION['USERID'], $_SESSION['ISGOLDMEMBER'])){
+					redirect("myTickets.php?submit=doPurchase");
 				}else{
 					echo "somethings wrong!";
 				}
@@ -91,8 +95,6 @@
 	</head>
 
 	<body>
-
-
 
 		<!-- NAVBAR  -->
 		 <nav class="navbar navbar-inverse">
@@ -143,14 +145,19 @@
 					<form action="do_purchase.php" method="POST" class="form-horizontal">
 
     <fieldset>
-      <legend>Payment</legend>
+      <legend>Payment<small><?php if($isGoldMember){
+      	echo " (You're a gold member, discountPercentage : ".$discountPercentage.")";}?></small></legend>
+
     					<div class="form-group">
 							<label class="col-sm-3 control-label text-info" for="avaliableTicketNumber">#Avaliable Tickets : <?php echo $avaliableTicketNumber ?> </label>
 
 							<label class="col-sm-3 control-label" for="ticketNumber">Ticket number: </label>
 							        <div class="col-sm-9">
-    						<input type="number" id="ticketNumber" onchange="updatePrice(<?php echo $ticketPrice; ?>)" name="ticketNumber" min="1" max="<?php echo $avaliableTicketNumber?>" class="form-control" placeholder="1">
-							<label for="totalPrice" id="totalPrice">Total : <?php echo $ticketPrice; ?></label>
+    						<input type="number" id="ticketNumber" onchange="updatePrice(<?php echo $ticketPrice;
+    						if($isGoldMember){
+    							echo ", ".$discountPercentage;
+    						} ?>)" name="ticketNumber" min="1" max="<?php echo $avaliableTicketNumber?>" class="form-control" placeholder="1">
+							<label for="totalPrice" id="totalPrice">Total : </label>
 	    </div>
 						</div>
       

@@ -13,20 +13,26 @@ class DatabaseClient
 		$this->conn = oci_close($this->conn);
 	}
 
+
 	function putSavePoint($savePointName){
 		$sql = "SAVEPOINT ".$savePointName;
 		$stmt = oci_parse($this->conn, $sql);
 		return oci_execute($stmt);
 	}
-	function rollBackToSavePoint($savePointName){
-		$sql = "ROLLBACK TO ".$savePointName;
-		$stmt = oci_parse($this->conn, $sql);
-		return oci_execute($stmt);
+	function rollBackToSavePoint(){
+		oci_rollback($this->conn);
 	}
 	function commit(){
-		$sql = "COMMIT";
+		oci_commit($this->conn);
+	}
+
+	function getDiscountPercentageByGoldmemberID($userID){
+		$sql = "SELECT * FROM GOLDMEMBERS WHERE USERID=".$userID;
 		$stmt = oci_parse($this->conn, $sql);
-		return oci_execute($stmt);
+
+		oci_execute($stmt);
+		oci_fetch_all($stmt, $res);
+		return $res;
 	}
 
 		function addNewPicPath($userid, $picpath){ //new function
@@ -43,16 +49,16 @@ class DatabaseClient
 
 	}
 
-	function addNewMemberLog($userID, $loginInfo){
+	function addNewMemberLog($userID, $logInfo){
 		$sql = 'BEGIN ADDNEWMEMBERLOG(:USRID, :LGINFORMATION); END;';
         $stmt = oci_parse($this->conn, $sql);
 
         oci_bind_by_name($stmt, ':USRID', $userID);
-        oci_bind_by_name($stmt, ':LGINFORMATION', $loginInfo);
+        oci_bind_by_name($stmt, ':LGINFORMATION', $logInfo);
 
         return oci_execute($stmt);
 	}
-    function getPurchased($userid) // new function
+    function getPurchased($userid) // edited function
 	{
         $sql = "select P.TICKETID ID from PURCHASE P WHERE P.USERID =". (int)$userid;
         $stmt = oci_parse($this->conn, $sql);
@@ -62,9 +68,18 @@ class DatabaseClient
 
         return $res;
     }
+    	
+    function deletePurchase($ticketID) //new function
+	{ 
+        $sql = 'BEGIN DELETEPURCHASE(:TCKETID); END;';
+        $stmt = oci_parse($this->conn, $sql);
+
+        oci_bind_by_name($stmt, ':TCKETID', $ticketID);
+
+        return oci_execute($stmt);
+    }
 	function getAvailableTickets($eventID){
 		$sql = 'SELECT T.TICKETID FROM TICKET T WHERE T.TICKETSTATUSID = 1 AND T.EVENTID='.$eventID;
-		echo $sql;
 		$stmt = oci_parse($this->conn, $sql);
 		oci_execute($stmt);
 		oci_fetch_all($stmt, $res);
@@ -74,9 +89,9 @@ class DatabaseClient
         $sql = 'BEGIN ADDNEWDISCOUNTUSAGE(:PRCHASEID, :USRID, :TCKTID); END;';
         $stmt = oci_parse($this->conn, $sql);
         
-        oci_bind_by_name($stmt, ':TCKTID', $purchaseID);
+        oci_bind_by_name($stmt, ':PRCHASEID', $purchaseID);
         oci_bind_by_name($stmt, ':USRID', $userID);
-        oci_bind_by_name($stmt, ':PRCHASEID', $ticketID);
+        oci_bind_by_name($stmt, ':TCKTID', $ticketID);
 
         return oci_execute($stmt);
 	}
@@ -89,7 +104,7 @@ class DatabaseClient
         $purchaseID = 0;
         oci_bind_by_name($stmt, ':PRCHASEID', $purchaseID, 20);
 
-        oci_execute($stmt);
+        oci_execute($stmt, OCI_NO_AUTO_COMMIT);
 		return $purchaseID;
 	}
     function getPurhcasedTicketsInfos($userid) //new function
@@ -225,7 +240,7 @@ class DatabaseClient
 	    return $res;
     }
 	function getLogs($userID){
-		$sql = "select ML.LOGID, ML.LOGINFORMATION, TO_CHAR(ML.LOGDATE, 'yyyy/mm/dd hh24:mi:ss') LOGDATE from MEMBERLOG ML where ML.USERID=" . (int)$userID ;
+		$sql = "select ML.LOGID, ML.LOGINFORMATION, TO_CHAR(ML.LOGDATE, 'yyyy/mm/dd hh24:mi:ss') LOGDATE from MEMBERLOG ML where ML.USERID=" . (int)$userID ." ORDER BY ML.LOGID DESC";
 		$stmt = oci_parse($this->conn, $sql);
 
 		oci_execute($stmt);

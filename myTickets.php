@@ -9,8 +9,27 @@
     include 'C:/xampp/htdocs/src/myEvents.php';
     include 'C:/xampp/htdocs/src/memberLoginAuthentication.php';
 
-    //TODO
+    $giveBackInfo = "";
 
+    if($_SERVER['REQUEST_METHOD'] == "POST"){
+        if($_POST['submit'] == "giveBack"){
+
+            $ticketID = $_POST['ticketData'];
+
+            if($_POST['ticketData']){
+
+                $result = giveBackPurchase($ticketID);
+
+                if($result){
+                    $giveBackInfo = "Giving back succesfully done!";
+                }else{
+                    $giveBackInfo = "Ticker cannot Giving Back!";
+                }
+            }else{
+                $giveBackInfo = "Somethings went wrong!";
+            }
+        }
+    }
     ?>
 
     <title>myticket</title>
@@ -73,7 +92,8 @@
             <div class="form-group">
                 <?php getPurchasedTicketsSelection(); ?>
                 </br></br>
-                <button type="submit" name="submit" value="deletePurchase" class="btn btn-default">Give Back</button>
+                <button type="submit" name="submit" value="giveBack" class="btn btn-default">Give Back</button>
+                <h4 class="text-succes" style="text-align: center;"><?php echo $giveBackInfo ;?></h4>
             </div>
         </form>
     </div>

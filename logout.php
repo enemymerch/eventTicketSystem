@@ -6,9 +6,20 @@
 	<?php 
 	function logOut(){
 		if(isset($_SESSION)){
+			$dbClient = new DatabaseClient();
+			$dbClient->openConnection();
+			$dbClient->addNewMemberLog($_SESSION["USERID"], "Logged  out!");
+			$dbClient->closeConnection();
     		session_destroy();
 		}else{
 			session_start();
+			if(isset($_SESSION["USERID"])){
+				include "src/db.php";
+				$dbClient = new DatabaseClient();
+				$dbClient->openConnection();
+				$dbClient->addNewMemberLog($_SESSION["USERID"], "Logged  out!");
+				$dbClient->closeConnection();	
+			}
 	    	session_destroy();
 		}
   	}

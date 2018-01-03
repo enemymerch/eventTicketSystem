@@ -151,7 +151,10 @@ function authenticateAdmin($username, $password){
 
       // adding new event
       $eventID = $dbClient->addNewEvent($eventTypeID, $locationID, $name, $info, $date);
-      
+      if(!$eventID){
+        $dbClient->rollBackToSavePoint();
+        return False;
+      }
        
       // creating new tickets;
       for($i = 0;$i<(int)$ticketNumber; $i++){

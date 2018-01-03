@@ -1,12 +1,25 @@
 <?php
-function getPurchasedTicketsSelection() //new function
-{
+
+  function getDiscountPercentage($userID){
+    $dbClient = new DatabaseClient();
+    $dbClient->openConnection();
+    $result = $dbClient->getDiscountPercentageByGoldmemberID($userID);
+    $discountPercentage = $result['DISCOUNTPERCENTAGE']; 
+    $dbClient->closeConnection(); 
+    if(count($discountPercentage )==0){
+      return 0;
+    }
+    return $discountPercentage[0];
+  }
+
+  function getPurchasedTicketsSelection() //edited function
+  {
     $dbClient = new DatabaseClient();
     $dbClient->openConnection();
     $purchases = $dbClient->getPurchased($_SESSION['USERID']);
     $ticketIDs = $purchases['ID'];
 
-    echo "<select class=\"form-control\" id=\"members\" name=\"memberData\"> ";
+    echo "<select class=\"form-control\" id=\"ticketIDs\" name=\"ticketData\"> ";
     for($i = 0 ; count($ticketIDs)>$i ; $i++){
         echo '<option>'.( $ticketIDs[$i] ).'</option>';
     }
@@ -16,7 +29,19 @@ function getPurchasedTicketsSelection() //new function
 
     $dbClient->closeConnection();
 
-}
+  }
+  
+  function giveBackPurchase($ticketID) //new function
+  { 
+        $dbClient = new DatabaseClient();
+        $dbClient->openConnection();
+        $result = $dbClient->deletePurchase($ticketID);
+
+        $dbClient->closeConnection();
+
+        return $result;
+  }
+
 
 function addNewPicPath($userid, $picpath){ // new function
     // creating a db Client
@@ -106,34 +131,26 @@ function createPurchasedTable() //new function
   function purchaseTickets($ticketNumber, $eventID, $userID, $isGoldMember){
     $dbClient = new DatabaseClient();
     $dbClient->openConnection();
+    //$dbClient->autoCommitOff();
     $tickets = $dbClient->getAvailableTickets($eventID);
     $ticketIDs = $tickets['TICKETID'];
     if(count($ticketIDs)<$ticketNumber){
-      echo "qqq";
       $dbClient->closeConnection();
       return 0;
     }
-
-    $savePoint= "beforePurchase";
-    $dbClient->putSavePoint($savePoint);
-    echo "1";
-
     for($i=0;$i<$ticketNumber;$i++){
       $ticketID = $ticketIDs[$i];
       $purchaseID = $dbClient->doPurchase($ticketID, $userID);
-      echo $purchaseID;
       if(!$purchaseID){
-        $dbClient->rollBackToSavePoint($savePoint);
+        $dbClient->rollBackToSavePoint();
         $dbClient->closeConnection();
-        echo "2";
         return 0;
       }else{
-        echo "*";
         if($isGoldMember){
-          if(!$dbClient->useDiscount($purchaseID, $userID, $ticketID)){
-            $dbClient->rollBackToSavePoint($savePoint);
+          $temp = $dbClient->useDiscount($purchaseID, $userID, $ticketID);
+          if(!$temp){
+            $dbClient->rollBackToSavePoint();
             $dbClient->closeConnection();
-            echo "3";
             return 0;
           }
         }
@@ -147,10 +164,10 @@ function createPurchasedTable() //new function
   }
 
   function isGoldMember($userID){
-    $dbClient = new DatabaseClient();;
+    $dbClient = new DatabaseClient();
     $dbClient->openConnection();
     $result = $dbClient->getGoldMembers();
-    $userIDs= $result['USERID'][0];
+    $userIDs = $result['USERID'];
 
     for($i=0;$i<count($userIDs);$i++){
       if($userIDs[$i]==$userID){
@@ -256,13 +273,17 @@ function addNewMember($username, $email, $name, $password, $street, $city, $post
 
 	// opening the db connection
 	$dbClient->openConnection();
+  $savePoint = "beforeRegister";
+  $dbClient->putSavePoint($savePoint);
 
 	// first going to check if the email address if used ort not!
 	
 	if( (int)$dbClient->isEmailTaken($email)) { // is email taken ? 
-		return -9; // means Email is taken
+    $dbClient->closeConnection();
+    return -9; // means Email is taken
 	}else if((int)$dbClient->isUsernameTaken($username)){
-		return -10; // means username is taken
+    $dbClient->closeConnection();
+    return -10; // means username is taken
 	}else{
 		//first going to create address for user !
 		// but going to need the countryIDü
@@ -270,7 +291,9 @@ function addNewMember($username, $email, $name, $password, $street, $city, $post
 		$addressID = $dbClient->addNewAddress($street, $city, $countryID, $postcode ); 
 		//now , going to add the new user
 		$result = $dbClient->addNewMember($username, $email, $name, getHash($password), $street, $city, $phone, $postcode, $addressID);
-		
+		if(!$result){
+      $dbClient->rollBackToSavePoint();
+    }
 	}
   $dbClient->commit();
 	$dbClient->closeConnection();
@@ -357,15 +380,12 @@ function authenticateMember($username, $password){
     //$i = 0;
     for($i = 0; $i<count($userids); $i++){
     	$r = $i;
-    	echo $i;
     	if(validateLogin($username, $usernames[$i], getHash($password), $userpasswords[$i])){
    		    // YES
    		    session_start();
    		    $_SESSION["isLoggedIn"] = True;
    		    $_SESSION["USERTYPE"] = 1;
    		    //echo $usernames[$r];
-   		    echo $i;
-   		    echo count($userids);
    		    $_SESSION["USERID"] = $userids[$i];
    		    $_SESSION["USERNAME"] = $username;
    		    $_SESSION["USERPASSWORD"] = $userpasswords[$i];
