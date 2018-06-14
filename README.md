@@ -1,7 +1,7 @@
 # myEvents
 
 event ticket system. search for events , purchase ticket, signup&signin, etc.
-PHP5 - mysql - bootstrap3
+PHP5 - oracledb - bootstrap3
 
 index.php:
 -first page of the project. Includes : login and register forms !
